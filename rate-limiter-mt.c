@@ -97,16 +97,21 @@ destroy_queue(queue_t* q)
   free(q);
 }
 
-unsigned int
+unsigned int 
 enqueue(queue_t** q, long data)
 {
   qnode_t* temp = NULL;
-  if (NULL == *q)
+  if (NULL == *q) 
     return initialize_queue(q, data);
   else if (NULL == (temp = allocate_node(data)))
     return FAILURE;
 
-  (*q)->tail->next = temp;
+  if ((*q)->size) {
+    (*q)->tail->next = temp;
+  } else {
+    (*q)->head = temp;
+  }
+  
   (*q)->tail = temp;
   (*q)->size++;
 
